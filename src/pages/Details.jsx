@@ -52,7 +52,6 @@ export default function Details() {
       <div className="py-5">
         <div className="w-[730px] m-auto ">
           <Card className="dark:bg-[#1E2139]">
-            {" "}
             <CardContent className="flex gap-[198px]">
               <div className="flex items-center gap-2">
                 <span>Status: </span>
@@ -60,41 +59,48 @@ export default function Details() {
               </div>
 
               <div className="flex gap-[8px]">
-                <Button
-                  className="bg-[#e7e8ec] dark:text-[#fff] dark:bg-[#252945] hover:bg-[#DFE3FA] text-[#7E88C3]  w-[73px] h-[48px] rounded-[24px] cursor-pointer"
-                  >
+                <Button className="bg-[#e7e8ec] dark:text-[#fff] dark:bg-[#252945] hover:bg-[#DFE3FA] text-[#7E88C3] w-[73px] h-[48px] rounded-[24px] cursor-pointer">
                   Edit
                 </Button>
+
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button className="bg-[#EC5757] dark:text-[#fff] hover:bg-[#FF9797] w-[89px] h-[48px] rounded-[24px]  cursor-pointer">
+                    <Button className="bg-[#EC5757] dark:text-[#fff] hover:bg-[#FF9797] w-[89px] h-[48px] rounded-[24px] cursor-pointer">
                       Delete
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="w-[480px] h-[249px] dark:bg-[#1E2139]">
+
+                  <DialogContent
+                    className="w-[480px] h-[249px] dark:bg-[#1E2139]"
+                    aria-labelledby="delete-dialog-title"
+                    aria-describedby="delete-dialog-description">
                     <DialogHeader>
-                      <DialogTitle className=" leading-[48px] text-[24px] mt-[20px] ">
+                      <DialogTitle
+                        id="delete-dialog-title"
+                        className="leading-[48px] text-[24px] mt-[20px]">
                         Confirm Deletion
                       </DialogTitle>
-                      <DialogDescription>
+                      <DialogDescription id="delete-dialog-description">
                         Are you sure you want to delete invoice{" "}
-                        {invoice.invoiceId} This action cannot be undone.
+                        <strong>{invoice.invoiceId}</strong>? This action cannot
+                        be undone.
                       </DialogDescription>
                     </DialogHeader>
+
                     <div className="flex gap-[8px] mt-[16px] justify-end">
                       <DialogClose asChild>
                         <Button className="bg-[#F9FAFE] dark:text-[#fff] hover:bg-[#DFE3FA] text-[#7E88C3] w-[91px] h-[48px] rounded-[24px] dark:bg-[#252945] cursor-pointer">
                           Cancel
                         </Button>
                       </DialogClose>
-                      <Button className="bg-[#EC5757] dark:text-[#fff] hover:bg-[#FF9797] w-[89px] h-[48px] rounded-[24px]  cursor-pointer">
+                      <Button className="bg-[#EC5757] dark:text-[#fff] hover:bg-[#FF9797] w-[89px] h-[48px] rounded-[24px] cursor-pointer">
                         Delete
                       </Button>
                     </div>
                   </DialogContent>
                 </Dialog>
 
-                <Button className="bg-[#7C5DFA] dark:text-[#fff] hover:bg-[#9277FF] w-[131px] h-[48px] rounded-[24px]  cursor-pointer   ">
+                <Button className="bg-[#7C5DFA] dark:text-[#fff] hover:bg-[#9277FF] w-[131px] h-[48px] rounded-[24px] cursor-pointer">
                   Mark as Paid
                 </Button>
               </div>

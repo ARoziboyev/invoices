@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ItemList from "./ItemList";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
@@ -14,8 +14,14 @@ import {
 } from "@/components/ui/select";
 import { DialogClose } from "@/components/ui/dialog";
 import { prepareData } from "../lib/utils";
+import useAppStore from "../lib/Zustend";
+import { addInvoice } from "../reques";
+import { toast } from "sonner";
 
 function Form({ info }) {
+  const { items: zustandItems } = useAppStore();
+  const [responseData, setResponseData] = useState(null);
+
   const {
     senderAddress,
     clientAddress,
@@ -28,34 +34,46 @@ function Form({ info }) {
     street,
     items,
   } = info || {};
+  const [sending, setSending] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const {setInvoices} = useAppStore()
   function handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
     const result = { status: e.nativeEvent.submitter.id };
+
     formData.forEach((value, key) => {
-      if (key === "quantity" || key === "price" || key === "paymentTerms") {
+      if (["quantity", "price", "paymentTerms"].includes(key)) {
         result[key] = Number(value);
       } else {
         result[key] = value;
       }
     });
 
-    result.items = [
-      {
-        id: crypto.randomUUID(),
-        name: "Banner Design",
-        quantity: 1,
-        price: 156,
-        get total() {
-          return this.price * this.quantity;
-        },
-      },
-    ];
+    result.items = zustandItems;
 
-    const redyData = prepareData(result);
-    console.log(redyData);
+    const readyData = prepareData(result);
+    setSending(readyData);
   }
-
+  useEffect(() => {
+    if (sending) {
+      setLoading(true);
+      addInvoice(sending)
+        .then((res) => {
+          setInvoices([res])
+          setResponseData(res); 
+          console.log(res);
+          toast.success("Succesfully adding ✅")
+        })
+        .catch(({ massage }) => {
+          toast.error(massage);
+        })
+        .finally(() => {
+          setLoading(false);
+          setSending(null)
+        });
+    }
+  }, [JSON.stringify(sending)]);
   return (
     <form
       onSubmit={handleSubmit}
@@ -280,19 +298,25 @@ function Form({ info }) {
             />
           </div>
         </div>
-        <ItemList info={info} />
+        <ItemList info={info && info.items} />
         {info ? (
           <div className="flex justify-end gap-5 mt-10">
             <Button variant={"outline"}>Cancel</Button>
-            <Button>Save Changes</Button>
+            <Button disabled={loading}>
+              {loading ? "Loading..." : "Save Changes"}
+            </Button>
           </div>
         ) : (
           <div className="flex justify-end gap-5 mt-10">
-            <Button variant={"outline"}>Discard</Button>
-            <Button id="draft" variant={"secondary"}>
-              Save as draft
+            <Button disabled={loading} variant={"outline"}>
+              Discard
             </Button>
-            <Button id="pending">Save & Send</Button>
+            <Button disabled={loading} id="draft" variant={"secondary"}>
+              {loading ? "Loading..." : "Save as draft"}
+            </Button>
+            <Button disabled={loading} id="pending">
+              {loading ? "Loading..." : "Save & Send"}
+            </Button>
           </div>
         )}
       </div>

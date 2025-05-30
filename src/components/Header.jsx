@@ -134,7 +134,7 @@ function Header({ totalInvoices = 7 }) {
             <SheetContent
               className="ml-[103px] min-w-[719px] dark:bg-[#141625] z-50 overflow-y-auto"
               side="left">
-              <Form info={info} />
+              <Form info={null} />
             </SheetContent>
           </Sheet>
         </div>

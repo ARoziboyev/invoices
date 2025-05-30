@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import tresh from "../assets/trash.svg";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
+import useAppStore from "../lib/Zustend";
 
 function ItemList({ info }) {
-  const [items, setItems] = useState(
+  const { setItems } = useAppStore();
+
+  const [locolItems, setLocalItems] = useState(
     info && Array.isArray(info) && info.length > 0
       ? info
       : [
@@ -21,20 +24,19 @@ function ItemList({ info }) {
         ]
   );
 
+  useEffect(() => {
+    setItems(locolItems)
+  }, [JSON.stringify(locolItems)]);
+
   function handleChange(e, id) {
     const { name, value } = e.target;
 
-    setItems((prev) =>
+    setLocalItems((prev) =>
       prev.map((item) => {
         if (item.id === id) {
           const updatedItem = {
             ...item,
-            [name]:
-              name === "name"
-                ? value
-                : value === ""
-                ? ""
-                : Number(value),
+            [name]: name === "name" ? value : value === "" ? "" : Number(value),
           };
           return {
             ...updatedItem,
@@ -50,8 +52,11 @@ function ItemList({ info }) {
 
   function handleClick(type, id) {
     if (type === "add") {
-      if (items.length === 0 || items[items.length - 1].name.trim() !== "") {
-        setItems((prev) => [
+      if (
+        locolItems.length === 0 ||
+        locolItems[locolItems.length - 1].name.trim() !== ""
+      ) {
+        setLocalItems((prev) => [
           ...prev,
           {
             id,
@@ -67,10 +72,10 @@ function ItemList({ info }) {
         toast.info("Iltimos, oxirgi element nomini kiriting");
       }
     } else if (type === "delete") {
-      if (items.length === 1) {
+      if (locolItems.length === 1) {
         toast.info("Eng kamida 1 ta item bo‘lishi kerak");
       } else {
-        setItems((prev) => prev.filter((el) => el.id !== id));
+        setLocalItems((prev) => prev.filter((el) => el.id !== id));
       }
     }
   }
@@ -86,11 +91,8 @@ function ItemList({ info }) {
         <span className="w-[32px]"></span>
       </div>
       <ul>
-        {items.map(({ name, quantity, price, total, id }) => (
-          <li
-            className="flex items-center justify-between gap-2 mb-3"
-            key={id}
-          >
+        {locolItems.map(({ name, quantity, price, total, id }) => (
+          <li className="flex items-center justify-between gap-2 mb-3" key={id}>
             <Input
               onChange={(e) => handleChange(e, id)}
               value={name}
@@ -100,7 +102,7 @@ function ItemList({ info }) {
               placeholder="Item Name"
             />
             <Input
-            inputMode="numeric"
+              inputMode="numeric"
               onChange={(e) => handleChange(e, id)}
               value={quantity}
               className="w-[60px] h-[48px] border dark:text-[#fff] border-[#E5E7EB] rounded-[4px] text-center font-medium text-[#111827]"
@@ -110,7 +112,7 @@ function ItemList({ info }) {
               placeholder="Qty"
             />
             <Input
-            inputMode="numeric"
+              inputMode="numeric"
               onChange={(e) => handleChange(e, id)}
               value={price}
               className="w-[100px] h-[48px] border dark:text-[#fff] border-[#3B82F6] rounded-[4px] text-right pr-3 font-medium text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
@@ -123,10 +125,9 @@ function ItemList({ info }) {
               {isNaN(total) ? "0.00" : total.toFixed(2)}
             </span>
             <Button
-              type="button" 
+              type="button"
               onClick={() => handleClick("delete", id)}
-              className="w-[32px] h-[32px] bg-transparent hover:bg-transparent p-0 cursor-pointer"
-            >
+              className="w-[32px] h-[32px] bg-transparent hover:bg-transparent p-0 cursor-pointer">
               <img src={tresh} alt="trash" width={18} height={18} />
             </Button>
           </li>
@@ -135,8 +136,7 @@ function ItemList({ info }) {
       <Button
         type="button"
         onClick={() => handleClick("add", crypto.randomUUID())}
-        className=" mt-[18px] w-[504px] h-[48px] text-[#7E88C3]  bg-[#F9FAFE]  dark:bg-[#252945] rounded-[24px] cursor-pointer "
-      >
+        className=" mt-[18px] w-[504px] h-[48px] text-[#7E88C3]  bg-[#F9FAFE]  dark:bg-[#252945] rounded-[24px] cursor-pointer ">
         + Add New Item
       </Button>
     </div>

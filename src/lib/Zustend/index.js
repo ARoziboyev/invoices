@@ -2,7 +2,12 @@ import { create } from "zustand";
 
 const useAppStore = create((set) => ({
   filter: "",
-  setFilter: (value) => set({ filter: value }),
+  invoices: [],
+  items: [],
+  setInvoices: (invoices) =>
+    set((state) => ({ invoices: [...state.invoices, ...invoices] })),
+  setFilter: (value) => set(() => ({ filter: value })),
+  setItems: (items) => set(() => ({ items })),
 }));
 
 export default useAppStore;
