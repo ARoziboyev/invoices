@@ -42,7 +42,7 @@ export async function addInvoice(data) {
     body: JSON.stringify(data),
   });
   if (req.status === 200) {
-    const result = req.json();
+    const result = req;
     return result;
   } else {
     throw new Error("xatolik mavjud");
