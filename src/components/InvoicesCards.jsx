@@ -14,7 +14,7 @@ function InvoicesCards() {
   useEffect(() => {
     setLoading(true);
     setError(null);
-    getInvoise("/invoices", filter)
+    getInvoise(filter)
       .then((res) => {
         const filtered = res.filter((item) =>
           ["draft", "paid", "pending"].includes(item.status)

@@ -1,6 +1,6 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { getinvois } from "../reques";
+import { deleteById, getinvois, updateById } from "../reques";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "../components/ui/button";
@@ -14,18 +14,22 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
+import { toast } from "sonner";
 
 export default function Details() {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [invoice, setInvoice] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [upDateLoading, setUpdateLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
     setError(null);
 
-    getinvois(`/invoices/${id}`)
+    getinvois(`/${id}`)
       .then((res) => {
         setInvoice(res);
       })
@@ -36,6 +40,36 @@ export default function Details() {
         setLoading(false);
       });
   }, [id]);
+
+  function handleDelete(id) {
+    setDeleteLoading(true);
+    deleteById(id)
+      .then((res) => {
+        console.log(res);
+        navigate("/");
+        toast.success("card o'chirildi");
+        console.log(navigate);
+      })
+      .catch(({ message }) => {
+        toast.error(message);
+      })
+      .finally(() => {
+        setDeleteLoading(false);
+      });
+  }
+  function handleUpdate(id, data) {
+    setUpdateLoading(true);
+    updateById(id, data)
+      .then((res) => {
+        navigate("/");
+      })
+      .catch(({ message }) => {
+        toast.error(message);
+      })
+      .finally(() => {
+        setUpdateLoading(false);
+      });
+  }
 
   if (loading)
     return (
@@ -49,6 +83,7 @@ export default function Details() {
 
   return (
     <div className="dark:bg-[#141625] w-[100%] h-[100vh] ">
+      
       <div className="py-5">
         <div className="w-[730px] m-auto ">
           <Card className="dark:bg-[#1E2139]">
@@ -93,18 +128,55 @@ export default function Details() {
                           Cancel
                         </Button>
                       </DialogClose>
-                      <Button className="bg-[#EC5757] dark:text-[#fff] hover:bg-[#FF9797] w-[89px] h-[48px] rounded-[24px] cursor-pointer">
-                        Delete
+                      <Button
+                        onClick={() => handleDelete(invoice.id)}
+                        disabled={deleteLoading}
+                        className="bg-[#EC5757] dark:text-[#fff]  hover:bg-[#FF9797] w-[89px] h-[48px] rounded-[24px] cursor-pointer">
+                        {deleteLoading ? "Loading..." : "Delete"}
                       </Button>
                     </div>
                   </DialogContent>
                 </Dialog>
 
-                <Button className="bg-[#7C5DFA] dark:text-[#fff] hover:bg-[#9277FF] w-[131px] h-[48px] rounded-[24px] cursor-pointer">
-                  Mark as Paid
-                </Button>
+                {invoice.status === "pending" && (
+                  <Button
+                    onClick={() => handleUpdate(invoice.id, { status: "paid" })}
+                    className="bg-[#7C5DFA] dark:text-[#fff] hover:bg-[#9277FF] w-[131px] h-[48px] rounded-[24px] cursor-pointer">
+                    {upDateLoading ? "Loading..." : "Mark as Paid"}
+                  </Button>
+                )}
               </div>
             </CardContent>
+            <div className="p-4 border-t dark:border-[#252945]">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500">
+                    Client Name
+                  </h4>
+                  <p className="text-lg">{invoice.clientName || "No name"}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500">Total</h4>
+                  <p className="text-lg font-bold">
+                    £{invoice.total?.toFixed(2) || "0.00"}
+                  </p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500">
+                    Due Date
+                  </h4>
+                  <p className="text-lg">
+                    {invoice.paymentDue || invoice.createdAt}
+                  </p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500">Address</h4>
+                  <p className="text-lg">
+                    {invoice.clientAddress?.street || "No address"}
+                  </p>
+                </div>
+              </div>
+            </div>
           </Card>
         </div>
       </div>

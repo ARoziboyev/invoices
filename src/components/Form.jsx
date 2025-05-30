@@ -17,7 +17,7 @@ import useAppStore from "../lib/Zustend";
 import { addInvoice } from "../reques";
 import { toast } from "sonner";
 
-function Form({ info }) {
+function Form({ info, setShetOpen }) {
   const { items: zustandItems } = useAppStore();
   const [responseData, setResponseData] = useState(null);
 
@@ -63,6 +63,7 @@ function Form({ info }) {
           setResponseData(res); 
           console.log(res);
           toast.success("Succesfully adding ✅")
+          setShetOpen(false)
         })
         .catch(({ massage }) => {
           toast.error(massage);
@@ -313,7 +314,7 @@ function Form({ info }) {
             <Button disabled={loading} id="draft" variant={"secondary"}>
               {loading ? "Loading..." : "Save as draft"}
             </Button>
-            <Button disabled={loading} id="pending">
+            <Button  disabled={loading} id="pending">
               {loading ? "Loading..." : "Save & Send"}
             </Button>
           </div>
