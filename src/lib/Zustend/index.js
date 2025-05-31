@@ -8,6 +8,7 @@ const useAppStore = create((set) => ({
     set((state) => ({ invoices: [...state.invoices, ...invoices] })),
   setFilter: (value) => set(() => ({ filter: value })),
   setItems: (items) => set(() => ({ items })),
+  setEditedData: (editedData) => set(() => ({ editedData })),
 }));
 
 export default useAppStore;

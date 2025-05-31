@@ -20,7 +20,7 @@ function SideBar() {
       <div className="hidden lg:fixed lg:left-0 lg:top-0 lg:h-screen md:z-[999] lg:block">
         <div className="w-[103px] h-[100vh] bg-[#373B53] rounded-tr-[20px] rounded-br-[20px] flex flex-col items-center justify-between overflow-hidden">
           <div className="rounded-tr-[20px] flex justify-center w-full">
-            <img src={logoImeg} alt="logo"  className="w-full md:h-full" />
+            <img src={logoImeg} alt="logo" className="w-full md:h-full" />
           </div>
 
           <div className="flex flex-col items-center w-full gap-[30px] mb-6">

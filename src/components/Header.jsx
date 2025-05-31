@@ -44,7 +44,7 @@ const info = {
 };
 
 function Header({ totalInvoices = 7 }) {
-  const [shetOpen, setShetOpen] = useState(false)
+  const [shetOpen, setShetOpen] = useState(false);
   const { setFilter } = useAppStore();
   const [items, setItems] = useState({
     draft: false,
@@ -117,11 +117,11 @@ function Header({ totalInvoices = 7 }) {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Sheet open={shetOpen} onOpenChange={setShetOpen}>
+          <Sheet>
             <SheetTrigger asChild>
               <Button
                 type="button"
-                className="bg-[#7C5DFA] hover:bg-[#9277FF] rounded-full h-12 px-2 pr-4 text-white">
+                className="bg-[#7C5DFA] hover:bg-[#9277FF] cursor-pointer rounded-full h-12 px-2 pr-4 text-white">
                 <div className="flex items-center gap-2">
                   <div className="bg-white p-1 rounded-full">
                     <Plus className="w-4 h-4 text-[#7C5DFA]" />
@@ -133,7 +133,7 @@ function Header({ totalInvoices = 7 }) {
               </Button>
             </SheetTrigger>
             <SheetContent
-              className="ml-[103px] min-w-[719px] dark:bg-[#141625] z-50 overflow-y-auto"
+              className="lg:ml-[103px] lg:min-w-[719px] lg:mt-[0px] md:min-w-[616px] md:ml-[0px] md:mt-[72px] sm:min-w-[100%]  dark:bg-[#141625] z-50 overflow-y-auto"
               side="left">
               <Form setShetOpen={setShetOpen} info={null} />
             </SheetContent>

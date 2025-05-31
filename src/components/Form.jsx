@@ -16,7 +16,6 @@ import { prepareData } from "../lib/utils";
 import useAppStore from "../lib/Zustend";
 import { addInvoice } from "../reques";
 import { toast } from "sonner";
-
 function Form({ info, setShetOpen }) {
   const { items: zustandItems } = useAppStore();
   const [responseData, setResponseData] = useState(null);
@@ -42,7 +41,7 @@ function Form({ info, setShetOpen }) {
     const result = { status: e.nativeEvent.submitter.id };
 
     formData.forEach((value, key) => {
-      if (["quantity", "price", "paymentTerms"].includes(key)) {
+      if (["quantity", "price", "paymentTerms" ].includes(key)) {
         result[key] = Number(value);
       } else {
         result[key] = value;
@@ -54,6 +53,7 @@ function Form({ info, setShetOpen }) {
     const readyData = prepareData(result);
     setSending(readyData);
   }
+
   useEffect(() => {
     if (sending) {
       setLoading(true);
@@ -72,7 +72,8 @@ function Form({ info, setShetOpen }) {
           setSending(null);
         });
     }
-  }, [JSON.stringify(sending)]);
+  }, [sending ? JSON.stringify(sending) : sending]);
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -301,19 +302,19 @@ function Form({ info, setShetOpen }) {
         {info ? (
           <div className="flex justify-end gap-5 mt-10">
             <Button variant={"outline"}>Cancel</Button>
-            <Button disabled={loading}>
+            <Button type="submit" disabled={loading}>
               {loading ? "Loading..." : "Save Changes"}
             </Button>
           </div>
         ) : (
           <div className="flex justify-end gap-5 mt-10">
-            <Button disabled={loading} variant={"outline"}>
+            <Button className=" w-[96px] dark:bg-[#F9FAFE] h-[48px] rounded-[24px] hover:bg-[#dbe2ff] cursor-pointer text-[#7E88C3]" disabled={loading} variant={"outline"}>
               Discard
             </Button>
-            <Button disabled={loading} id="draft" variant={"secondary"}>
+            <Button className="bg-[#373B53] w-[128px] h-[48px] rounded-[24px] hover:bg-[#0C0E16] cursor-pointer text-[#fff]" disabled={loading} id="draft" variant={"secondary"}>
               {loading ? "Loading..." : "Save as draft"}
             </Button>
-            <Button disabled={loading} id="pending">
+            <Button className="bg-[#7C5DFA] w-[128px] h-[48px] rounded-[24px] hover:bg-[#0C0E16] cursor-pointer text-[#fff]" disabled={loading} id="pending">
               {loading ? "Loading..." : "Save & Send"}
             </Button>
           </div>
