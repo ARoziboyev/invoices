@@ -35,7 +35,7 @@ function Form({ info, setShetOpen }) {
   } = info || {};
   const [sending, setSending] = useState(null);
   const [loading, setLoading] = useState(false);
-  const {setInvoices} = useAppStore()
+  const { setInvoices } = useAppStore();
   function handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -59,18 +59,17 @@ function Form({ info, setShetOpen }) {
       setLoading(true);
       addInvoice(sending)
         .then((res) => {
-          setInvoices([res])
-          setResponseData(res); 
-          console.log(res);
-          toast.success("Succesfully adding ✅")
-          setShetOpen(false)
+          setInvoices([res]);
+          setResponseData(res);
+          toast.success("Succesfully adding ✅");
+          setShetOpen(false);
         })
         .catch(({ massage }) => {
-          toast.error(massage);
+          toast.error(massage, "qo'shilishda xayolik");
         })
         .finally(() => {
           setLoading(false);
-          setSending(null)
+          setSending(null);
         });
     }
   }, [JSON.stringify(sending)]);
@@ -314,7 +313,7 @@ function Form({ info, setShetOpen }) {
             <Button disabled={loading} id="draft" variant={"secondary"}>
               {loading ? "Loading..." : "Save as draft"}
             </Button>
-            <Button  disabled={loading} id="pending">
+            <Button disabled={loading} id="pending">
               {loading ? "Loading..." : "Save & Send"}
             </Button>
           </div>
