@@ -229,7 +229,7 @@ export default function Details() {
                   </div>
                 </div>
 
-                <div className="mt-4 md:mt-0">
+                <div className="mt-4 md:mt-0 overflow-auto">
                   <h4 className="text-sm font-medium text-gray-500">Sent to</h4>
                   <p className="font-[16px] text-sm">
                     {invoice.clientEmail || "No email"}
