@@ -41,7 +41,7 @@ function Form({ info, setShetOpen }) {
     const result = { status: e.nativeEvent.submitter.id };
 
     formData.forEach((value, key) => {
-      if (["quantity", "price", "paymentTerms" ].includes(key)) {
+      if (["quantity", "price", "paymentTerms"].includes(key)) {
         result[key] = Number(value);
       } else {
         result[key] = value;
@@ -77,249 +77,161 @@ function Form({ info, setShetOpen }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-8  rounded-lg shadow-md max-w-4xl mx-auto">
-      <div className="mb-10">
-        <h3 className="text-lg font-semibold text-purple-600 mb-4">
-          Bill From
-        </h3>
-        <div className="flex flex-col gap-6">
-          <div className="w-full">
-            <Label
-              htmlFor="senderAddress-street"
-              className="text-sm font-medium text-gray-700 mb-1 block">
-              Street Address
+      className="bg-[#1E2139] text-white p-4 md:p-8 rounded-lg shadow-lg w-full max-w-[720px] mx-auto">
+      <h2 className="text-lg font-bold mb-6">Edit #{info?.id}</h2>
+
+      <h3 className="text-sm text-purple-500 font-semibold mb-4">Bill From</h3>
+      <div className="mb-6">
+        <Label htmlFor="senderAddress-street">Street Address</Label>
+        <Input
+          id="senderAddress-street"
+          name="senderAddress-street"
+          placeholder="Street Address"
+          className="w-full h-[48px] bg-[#252945] text-white"
+          defaultValue={info?.senderAddress?.street}
+        />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        {["city", "postCode", "country"].map((field) => (
+          <div key={field}>
+            <Label htmlFor={`senderAddress-${field}`}>
+              {field === "postCode"
+                ? "Post Code"
+                : field.charAt(0).toUpperCase() + field.slice(1)}
             </Label>
             <Input
-              type="text"
-              id="senderAddress-street"
-              name="senderAddress-street"
-              placeholder="Street Address"
-              className="w-[504px] h-[48px]p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              defaultValue={info && info.senderAddress.street}
+              id={`senderAddress-${field}`}
+              name={`senderAddress-${field}`}
+              placeholder={field}
+              className="w-full h-[48px] bg-[#252945] text-white"
+              defaultValue={info?.senderAddress?.[field]}
             />
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <Label
-                htmlFor="senderAddress-city"
-                className="text-sm font-medium text-gray-700 mb-1 block">
-                City
-              </Label>
-              <Input
-                type="text"
-                id="senderAddress-city"
-                name="senderAddress-city"
-                placeholder="City"
-                className="w-[152px] h-[48px] border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                defaultValue={info && info.senderAddress.city}
-              />
-            </div>
-            <div>
-              <Label
-                htmlFor="senderAddress-postCode"
-                className="text-sm font-medium text-gray-700 mb-1 block">
-                Post Code
-              </Label>
-              <Input
-                type="text"
-                id="senderAddress-postCode"
-                name="senderAddress-postCode"
-                placeholder="Post code"
-                className="w-[152px] h-[48px] p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                defaultValue={info && info.senderAddress.postCode}
-              />
-            </div>
-
-            <div>
-              <Label
-                htmlFor="senderAddress-country"
-                className="text-sm font-medium text-gray-700 mb-1 block">
-                Country
-              </Label>
-              <Input
-                type="text"
-                id="senderAddress-country"
-                name="senderAddress-country"
-                placeholder="Country"
-                className="w-[152px] h-[48px] p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                defaultValue={info && info.senderAddress.country}
-              />
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
-      {/* bill */}
-      <div className="mt-12 mb-10">
-        <div>
-          <h3 className="text-3xl font-bold text-gray-800 mb-8">Bill To</h3>
-          <div className="flex flex-col gap-5">
-            <div className="w-full">
-              <Label
-                htmlFor="clientName"
-                className="text-sm font-medium text-gray-700 mb-1 block">
-                Client’s Name
-              </Label>
-              <Input
-                type="text"
-                id="clientName"
-                name="clientName"
-                placeholder="Alex Grim"
-                className="w-[504px] h-[48px]p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                defaultValue={info && info.clientName}
-              />
-            </div>
-            <div className="w-full">
-              <Label
-                htmlFor="clientEmail"
-                className="text-sm font-medium text-gray-700 mb-1 block">
-                Client’s Email
-              </Label>
-              <Input
-                type="email"
-                id="clientEmail"
-                name="clientEmail"
-                placeholder="alexgrim@mail.com"
-                className="w-[504px] h-[48px]p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                defaultValue={info && info.clientEmail}
-              />
-            </div>
-            <div className="flex flex-col gap-6">
-              <div className="w-full">
-                <Label
-                  htmlFor="clientAddress-street"
-                  className="text-sm font-medium text-gray-700 mb-1 block">
-                  Street Address
-                </Label>
-                <Input
-                  type="text"
-                  id="clientAddress-street"
-                  name="clientAddress-street"
-                  placeholder="Street Address"
-                  className="w-[504px] h-[48px]p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  defaultValue={info && info.clientAddress.street}
-                />
-              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <Label
-                    htmlFor="clientAddress-city"
-                    className="text-sm font-medium text-gray-700 mb-1 block">
-                    City
-                  </Label>
-                  <Input
-                    type="text"
-                    id="clientAddress-city"
-                    name="clientAddress-city"
-                    placeholder="City"
-                    className="w-[152px] h-[48px] border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    defaultValue={info && info.clientAddress.city}
-                  />
-                </div>
-                <div>
-                  <Label
-                    htmlFor="clientAddress-postCode"
-                    className="text-sm font-medium text-gray-700 mb-1 block">
-                    Post Code
-                  </Label>
-                  <Input
-                    type="text"
-                    id="clientAddress-postCode"
-                    name="clientAddress-postCode"
-                    placeholder="Post code"
-                    className="w-[152px] h-[48px] p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    defaultValue={info && info.clientAddress.postCode}
-                  />
-                </div>
-
-                <div>
-                  <Label
-                    htmlFor="clientAddress-country"
-                    className="text-sm font-medium text-gray-700 mb-1 block">
-                    Country
-                  </Label>
-                  <Input
-                    type="text"
-                    id="clientAddress-country"
-                    name="clientAddress-country"
-                    placeholder="Country"
-                    className="w-[152px] h-[48px] p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    defaultValue={info && info.clientAddress.country}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-6"></div>
-          </div>
-        </div>
-
-        <div className="flex flex-col">
-          <div className="flex gap-[24px] items-center mt-[48px] mb-[24px]">
-            <div>
-              <Label htmlFor="createdAt">Invoice date</Label>
-              <Input
-                type="date"
-                id="createdAt"
-                name="createdAt"
-                placeholder="Invoice date"
-                className="w-[240px] h-[48px]"
-                defaultValue={info && info.createdAt}
-              />
-            </div>
-
-            <Select
-              name="paymentTerms"
-              defaultValue={info && info.paymentTerms.toString()}>
-              <SelectTrigger className="w-[240px] min:h-[48px] ">
-                <SelectValue placeholder="Net 30 Days" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Payment Terms</SelectLabel>
-                  <SelectItem value="1">Net 1 Day</SelectItem>
-                  <SelectItem value="7">Net 7 Days</SelectItem>
-                  <SelectItem value="14">Net 14 Days</SelectItem>
-                  <SelectItem value="30">Net 30 Days</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-          <div>
-            <Label htmlFor="description">Project Description</Label>
+      <h3 className="text-sm text-purple-500 font-semibold mb-4">Bill To</h3>
+      <div className="mb-6">
+        <Label htmlFor="clientName">Client’s Name</Label>
+        <Input
+          id="clientName"
+          name="clientName"
+          placeholder="Client Name"
+          className="w-full h-[48px] bg-[#252945] text-white"
+          defaultValue={info?.clientName}
+        />
+      </div>
+      <div className="mb-6">
+        <Label htmlFor="clientEmail">Client’s Email</Label>
+        <Input
+          id="clientEmail"
+          name="clientEmail"
+          placeholder="email@example.com"
+          className="w-full h-[48px] bg-[#252945] text-white"
+          defaultValue={info?.clientEmail}
+        />
+      </div>
+      <div className="mb-6">
+        <Label htmlFor="clientAddress-street">Street Address</Label>
+        <Input
+          id="clientAddress-street"
+          name="clientAddress-street"
+          placeholder="Street Address"
+          className="w-full h-[48px] bg-[#252945] text-white"
+          defaultValue={info?.clientAddress?.street}
+        />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        {["city", "postCode", "country"].map((field) => (
+          <div key={field}>
+            <Label htmlFor={`clientAddress-${field}`}>
+              {field === "postCode"
+                ? "Post Code"
+                : field.charAt(0).toUpperCase() + field.slice(1)}
+            </Label>
             <Input
-              type="text"
-              id="description"
-              name="description"
-              placeholder="Graphic Design"
-              defaultValue={info && info.description}
-              className="w-[504px] h-[48px]"
+              id={`clientAddress-${field}`}
+              name={`clientAddress-${field}`}
+              placeholder={field}
+              className="w-full h-[48px] bg-[#252945] text-white"
+              defaultValue={info?.clientAddress?.[field]}
             />
           </div>
-        </div>
-        <ItemList info={info && info.items} />
-        {info ? (
-          <div className="flex justify-end gap-5 mt-10">
-            <Button variant={"outline"}>Cancel</Button>
-            <Button type="submit" disabled={loading}>
-              {loading ? "Loading..." : "Save Changes"}
-            </Button>
-          </div>
-        ) : (
-          <div className="flex justify-end gap-5 mt-10">
-            <Button className=" w-[96px] dark:bg-[#F9FAFE] h-[48px] rounded-[24px] hover:bg-[#dbe2ff] cursor-pointer text-[#7E88C3]" disabled={loading} variant={"outline"}>
-              Discard
-            </Button>
-            <Button className="bg-[#373B53] w-[128px] h-[48px] rounded-[24px] hover:bg-[#0C0E16] cursor-pointer text-[#fff]" disabled={loading} id="draft" variant={"secondary"}>
-              {loading ? "Loading..." : "Save as draft"}
-            </Button>
-            <Button className="bg-[#7C5DFA] w-[128px] h-[48px] rounded-[24px] hover:bg-[#0C0E16] cursor-pointer text-[#fff]" disabled={loading} id="pending">
-              {loading ? "Loading..." : "Save & Send"}
-            </Button>
-          </div>
-        )}
+        ))}
       </div>
+
+      <div className="flex flex-col md:flex-row gap-6 mb-6">
+        <div className="w-full">
+          <Label htmlFor="createdAt">Invoice Date</Label>
+          <Input
+            type="date"
+            id="createdAt"
+            name="createdAt"
+            className="w-full h-[48px] bg-[#252945] text-white"
+            defaultValue={info?.createdAt}
+          />
+        </div>
+        <div className="w-full">
+          <Label htmlFor="paymentTerms">Payment Terms</Label>
+          <Select
+            name="paymentTerms"
+            defaultValue={info?.paymentTerms?.toString()}>
+            <SelectTrigger className="w-full h-[48px] bg-[#252945] text-white">
+              <SelectValue placeholder="Select terms" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="1">Net 1 Day</SelectItem>
+                <SelectItem value="7">Net 7 Days</SelectItem>
+                <SelectItem value="14">Net 14 Days</SelectItem>
+                <SelectItem value="30">Net 30 Days</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <Label htmlFor="description">Project Description</Label>
+        <Input
+          id="description"
+          name="description"
+          placeholder="Website Design"
+          className="w-full h-[48px] bg-[#252945] text-white"
+          defaultValue={info?.description}
+        />
+      </div>
+      <ItemList info={info && info.items} />
+      {info ? (
+        <div className="flex justify-end gap-5 mt-10">
+          <Button variant={"outline"}>Cancel</Button>
+          <Button type="submit" disabled={loading}>
+            {loading ? "Loading..." : "Save Changes"}
+          </Button>
+        </div>
+      ) : (
+        <div className="flex justify-end gap-2 sm:bg-[#1E2139] mt-10">
+          <Button
+            className=" w-[96px] dark:bg-[#F9FAFE] h-[48px] rounded-[24px] hover:bg-[#dbe2ff] cursor-pointer text-[#7E88C3]"
+            disabled={loading}
+            variant={"outline"}>
+            Discard
+          </Button>
+          <Button
+            className="bg-[#373B53] w-[128px] h-[48px] rounded-[24px] hover:bg-[#0C0E16] cursor-pointer text-[#fff]"
+            disabled={loading}
+            id="draft"
+            variant={"secondary"}>
+            {loading ? "Loading..." : "Save as draft"}
+          </Button>
+          <Button
+            className="bg-[#7C5DFA] w-[128px] h-[48px] rounded-[24px] hover:bg-[#0C0E16] cursor-pointer text-[#fff]"
+            disabled={loading}
+            id="pending">
+            {loading ? "Loading..." : "Save & Send"}
+          </Button>
+        </div>
+      )}
     </form>
   );
 }

@@ -108,7 +108,7 @@ export default function Details() {
                 <StatusBadge status={invoice.status} />
               </div>
 
-              <div className="flex flex-wrap justify-end gap-2 w-full md:w-auto">
+              <div className="flex flex-end justify-end gap-2 w-full md:w-auto">
                 <Sheet>
                   <SheetTrigger asChild>
                     <Button
@@ -231,7 +231,7 @@ export default function Details() {
 
                 <div className="mt-4 md:mt-0">
                   <h4 className="text-sm font-medium text-gray-500">Sent to</h4>
-                  <p className="font-medium">
+                  <p className="font-[16px] text-sm">
                     {invoice.clientEmail || "No email"}
                   </p>
                 </div>

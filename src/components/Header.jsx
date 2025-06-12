@@ -72,7 +72,7 @@ function Header({ totalInvoices = 7 }) {
             Invoices
           </h1>
           <p className="text-[#888EB0] mt-1">
-            {totalInvoices === 0
+            {(totalInvoices ?? 0) === 0
               ? "No invoices"
               : `There ${
                   totalInvoices === 1 ? "is" : "are"
@@ -133,7 +133,7 @@ function Header({ totalInvoices = 7 }) {
               </Button>
             </SheetTrigger>
             <SheetContent
-              className="lg:ml-[103px] lg:min-w-[719px] lg:mt-[0px] md:min-w-[616px] md:ml-[0px] md:mt-[72px] sm:min-w-[100%]  dark:bg-[#141625] z-50 overflow-y-auto"
+              className="fixed top-0 left-0 w-full h-screen z-50 overflow-y-auto sm:min-w-full md:min-w-[616px] md:ml-[0px] md:mt-[72px] lg:ml-[103px] lg:min-w-[719px] lg:mt-[0px] dark:bg-[#141625]"
               side="left">
               <Form setShetOpen={setShetOpen} info={null} />
             </SheetContent>

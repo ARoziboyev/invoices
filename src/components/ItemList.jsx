@@ -25,7 +25,7 @@ function ItemList({ info }) {
   );
 
   useEffect(() => {
-    setItems(locolItems)
+    setItems(locolItems);
   }, [JSON.stringify(locolItems)]);
 
   function handleChange(e, id) {
@@ -81,62 +81,73 @@ function ItemList({ info }) {
   }
 
   return (
-    <div className="w-[504px] max-w-[600px] mx-auto mt-6">
+    <div className="w-full max-w-[504px] mx-auto mt-6 px-4 sm:px-0">
       <h3 className="text-xl font-semibold mb-4 text-[#777F98]">Item List</h3>
-      <div className="flex items-center justify-between px-1 mb-2 text-sm text-[#6B7280] font-medium">
+
+      {/* Table header */}
+      <div className="hidden lg:flex items-center justify-between px-1 mb-2 text-sm text-[#6B7280] font-medium">
         <span className="w-[214px]">Item Name</span>
         <span className="w-[60px] text-center">Qty.</span>
         <span className="w-[100px] text-right">Price</span>
         <span className="w-[80px] text-right">Total</span>
         <span className="w-[32px]"></span>
       </div>
-      <ul>
+
+      <ul className="space-y-3">
         {locolItems.map(({ name, quantity, price, total, id }) => (
-          <li className="flex items-center justify-between gap-2 mb-3" key={id}>
+          <li
+            className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-2 lg:gap-2"
+            key={id}
+          >
             <Input
               onChange={(e) => handleChange(e, id)}
               value={name}
-              className="w-[214px] h-[48px] dark:text-[#fff] border border-[#E5E7EB] rounded-[4px] px-3 font-medium text-[#111827]"
+              className="w-full lg:w-[214px] h-[48px] dark:text-[#fff] border border-[#E5E7EB] rounded-[4px] px-3 font-medium text-[#111827]"
               type="text"
               name="name"
               placeholder="Item Name"
             />
-            <Input
-              inputMode="numeric"
-              onChange={(e) => handleChange(e, id)}
-              value={quantity}
-              className="w-[60px] h-[48px] border dark:text-[#fff] border-[#E5E7EB] rounded-[4px] text-center font-medium text-[#111827]"
-              type="number"
-              min={1}
-              name="quantity"
-              placeholder="Qty"
-            />
-            <Input
-              inputMode="numeric"
-              onChange={(e) => handleChange(e, id)}
-              value={price}
-              className="w-[100px] h-[48px] border dark:text-[#fff] border-[#3B82F6] rounded-[4px] text-right pr-3 font-medium text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
-              type="number"
-              min={0}
-              name="price"
-              placeholder="Price"
-            />
-            <span className="w-[80px] text-right dark:text-[#fff] font-medium text-[#6B7280]">
-              {isNaN(total) ? "0.00" : total.toFixed(2)}
-            </span>
-            <Button
-              type="button"
-              onClick={() => handleClick("delete", id)}
-              className="w-[32px] h-[32px] bg-transparent hover:bg-transparent p-0 cursor-pointer">
-              <img src={tresh} alt="trash" width={18} height={18} />
-            </Button>
+            <div className="flex gap-2 w-full lg:w-auto">
+              <Input
+                inputMode="numeric"
+                onChange={(e) => handleChange(e, id)}
+                value={quantity}
+                className="w-1/3 lg:w-[60px] h-[48px] border dark:text-[#fff] border-[#E5E7EB] rounded-[4px] text-center font-medium text-[#111827]"
+                type="number"
+                min={1}
+                name="quantity"
+                placeholder="Qty"
+              />
+              <Input
+                inputMode="numeric"
+                onChange={(e) => handleChange(e, id)}
+                value={price}
+                className="w-1/3 lg:w-[100px] h-[48px] border dark:text-[#fff] border-[#3B82F6] rounded-[4px] text-right pr-3 font-medium text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
+                type="number"
+                min={0}
+                name="price"
+                placeholder="Price"
+              />
+              <span className="w-1/3 lg:w-[80px] h-[48px] flex items-center justify-end dark:text-[#fff] font-medium text-[#6B7280]">
+                {isNaN(total) ? "0.00" : total.toFixed(2)}
+              </span>
+              <Button
+                type="button"
+                onClick={() => handleClick("delete", id)}
+                className="w-[32px] h-[32px] bg-transparent hover:bg-transparent p-0 cursor-pointer mt-2 lg:mt-0"
+              >
+                <img src={tresh} alt="trash" width={18} height={18} />
+              </Button>
+            </div>
           </li>
         ))}
       </ul>
+
       <Button
         type="button"
         onClick={() => handleClick("add", crypto.randomUUID())}
-        className=" mt-[18px] w-[504px] h-[48px] text-[#7E88C3]  bg-[#F9FAFE]  dark:bg-[#252945] rounded-[24px] cursor-pointer ">
+        className="mt-6 w-full h-[48px] text-[#7E88C3] bg-[#F9FAFE] dark:bg-[#252945] rounded-[24px] cursor-pointer"
+      >
         + Add New Item
       </Button>
     </div>
