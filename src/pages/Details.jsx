@@ -1,12 +1,10 @@
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { deleteById, getinvois, updateById } from "../reques";
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "../components/ui/button";
 import StatusBadge from "../components/StatusBages";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-
 import {
   Dialog,
   DialogContent,
@@ -19,6 +17,7 @@ import {
 import { toast } from "sonner";
 import { ArrowLeft } from "lucide-react";
 import Form from "../components/Form";
+import useAppStore from "../lib/Zustend";
 
 export default function Details() {
   const { id } = useParams();
@@ -30,11 +29,11 @@ export default function Details() {
   const [editingInvoice, setEditingInvoice] = useState(null);
   const [shetOpen, setShetOpen] = useState(false);
   const navigate = useNavigate();
+  const { updateInvoice } = useAppStore();
 
   useEffect(() => {
     setLoading(true);
     setError(null);
-
     getinvois(`/${id}`)
       .then((res) => {
         setInvoice(res);
@@ -50,11 +49,9 @@ export default function Details() {
   function handleDelete(id) {
     setDeleteLoading(true);
     deleteById(id)
-      .then((res) => {
-        console.log(res);
+      .then(() => {
         navigate("/");
-        toast.success("card o'chirildi");
-        console.log(navigate);
+        toast.success("Card o'chirildi");
       })
       .catch(({ message }) => {
         toast.error(message);
@@ -63,10 +60,13 @@ export default function Details() {
         setDeleteLoading(false);
       });
   }
+
   function handleUpdate(id, data) {
     setUpdateLoading(true);
     updateById(id, data)
       .then((res) => {
+        updateInvoice(res);
+        toast.success("Yangilandi ✅");
         navigate("/");
       })
       .catch(({ message }) => {
@@ -94,21 +94,20 @@ export default function Details() {
   return (
     <div className="dark:bg-[#141625] w-full min-h-screen">
       <div className="py-5">
-        <div className="w-full max-w-[730px] px-4 md:px-0  mx-auto mt-[80px] md:mt-[70px]">
+        <div className="w-full max-w-[730px]  px-4 md:px-0 mx-auto mt-[80px] md:mt-[70px]">
           <Button
             onClick={GoToBake}
-            className="mb-6 md:mb-[50px]  bg-transparent hover:bg-transparent border-none text-[#000] dark:text-[#fff] pl-0">
-            <ArrowLeft className="text-[#7C5DFA] flex-shrink-0" /> Go back
+            className="mb-6 dark:bg-[#141625] bg-transparent text-[#000] dark:text-[#fff] md:mb-[50px]">
+            <ArrowLeft className="text-[#7C5DFA]  mr-2" /> Go back
           </Button>
 
-          <Card className="dark:bg-[#1E2139] rounded-xl   md:rounded-2xl">
-            <CardContent className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 h-[68px] md:px-4 md:h-[75px]">
+          <Card className="dark:bg-[#1E2139] h-[150px] rounded-xl md:rounded-2xl">
+            <CardContent className="flex flex-col  md:flex-row justify-between  items-start md:items-center gap-4 h-[68px] md:px-4 md:h-[75px]">
               <div className="flex items-center justify-between w-full md:w-auto">
                 <span className="text-sm md:text-base">Status: </span>
                 <StatusBadge status={invoice.status} />
               </div>
-
-              <div className="flex flex-end justify-end gap-2 w-full md:w-auto">
+              <div className="flex flex-end justify-end  gap-2 w-full md:w-auto">
                 <Sheet>
                   <SheetTrigger asChild>
                     <Button
@@ -123,14 +122,12 @@ export default function Details() {
                     <Form setShetOpen={setShetOpen} info={editingInvoice} />
                   </SheetContent>
                 </Sheet>
-
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button className="bg-[#EC5757] dark:text-[#fff] hover:bg-[#FF9797] w-[89px] h-10 md:h-[48px] rounded-full">
                       Delete
                     </Button>
                   </DialogTrigger>
-
                   <DialogContent
                     className="w-[90%] max-w-[480px] h-[249px] dark:bg-[#1E2139] rounded-lg"
                     aria-labelledby="delete-dialog-title"
@@ -149,7 +146,6 @@ export default function Details() {
                         be undone.
                       </DialogDescription>
                     </DialogHeader>
-
                     <div className="flex gap-3 mt-4 justify-end">
                       <DialogClose asChild>
                         <Button className="bg-[#F9FAFE] dark:text-[#fff] hover:bg-[#DFE3FA] text-[#7E88C3] w-[91px] h-10 rounded-full dark:bg-[#252945]">
@@ -165,11 +161,10 @@ export default function Details() {
                     </div>
                   </DialogContent>
                 </Dialog>
-
                 {invoice.status === "pending" && (
                   <Button
                     onClick={() => handleUpdate(invoice.id, { status: "paid" })}
-                    className="bg-[#7C5DFA] dark:text-[#fff] hover:bg-[#9277FF] w-[131px] h-10 md:h-[48px] rounded-full">
+                    className="bg-[#7C5DFA] dark:text-[#fff] hover:bg-[#9277FF] w-[120px]  h-10 md:h-[48px] rounded-full">
                     {upDateLoading ? "Loading..." : "Mark as Paid"}
                   </Button>
                 )}
@@ -177,7 +172,7 @@ export default function Details() {
             </CardContent>
           </Card>
 
-          <div className="p-4 md:p-6 mt-6 md:mt-[50px] bg-[#fff]  border-t dark:border-[#252945] dark:bg-[#1E2139] rounded-2xl">
+          <div className="p-4 md:p-6 mt-6 md:mt-[50px] bg-[#fff] border-t dark:border-[#252945] dark:bg-[#1E2139] rounded-2xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div className="md:col-span-2">
                 <div className="flex flex-col md:flex-row justify-between">
@@ -199,7 +194,6 @@ export default function Details() {
                   </div>
                 </div>
               </div>
-
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-6 md:mt-8">
                 <div>
                   <h4 className="text-sm font-medium text-gray-500">
@@ -213,7 +207,6 @@ export default function Details() {
                   </h4>
                   <p className="font-medium">{invoice.paymentDue}</p>
                 </div>
-
                 <div className="mt-4 md:mt-0">
                   <h4 className="text-sm font-medium text-gray-500">Bill To</h4>
                   <p className="font-medium">
@@ -228,7 +221,6 @@ export default function Details() {
                     <p>{invoice.clientAddress?.country}</p>
                   </div>
                 </div>
-
                 <div className="mt-4 md:mt-0 overflow-auto">
                   <h4 className="text-sm font-medium text-gray-500">Sent to</h4>
                   <p className="font-[16px] text-sm">
@@ -246,19 +238,12 @@ export default function Details() {
                   <div className="text-right">Price</div>
                   <div className="text-right">Total</div>
                 </div>
-
                 <div className="divide-y dark:divide-[#1E2139]">
                   {invoice.items.map((item, idx) => (
                     <div
                       key={idx}
                       className="p-4 md:p-6 grid grid-cols-2 md:grid-cols-5 gap-4">
-                      <div className="col-span-2 font-medium">
-                        {item.name}
-                        <div className="md:hidden text-sm text-gray-500 mt-1">
-                          {item.quantity} x £
-                          {parseFloat(item.price || 0).toFixed(2)}
-                        </div>
-                      </div>
+                      <div className="col-span-2 font-medium">{item.name}</div>
                       <div className="hidden md:block text-center">
                         {item.quantity}
                       </div>
@@ -271,7 +256,6 @@ export default function Details() {
                     </div>
                   ))}
                 </div>
-
                 <div className="bg-[#373B53] dark:bg-[#0C0E16] p-6 flex justify-between items-center text-white">
                   <span>Amount Due</span>
                   <span className="text-2xl font-bold">£{invoice.total}</span>

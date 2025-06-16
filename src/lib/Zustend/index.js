@@ -4,11 +4,37 @@ const useAppStore = create((set) => ({
   filter: "",
   invoices: [],
   items: [],
-  setInvoices: (invoices) =>
-    set((state) => ({ invoices: [...state.invoices, ...invoices] })),
+  editedData: null,
+
+  setInvoices: (updater) =>
+    set((state) => ({
+      invoices:
+        typeof updater === "function"
+          ? updater(state.invoices)
+          : [...state.invoices, ...updater],
+    })),
+
   setFilter: (value) => set(() => ({ filter: value })),
   setItems: (items) => set(() => ({ items })),
   setEditedData: (editedData) => set(() => ({ editedData })),
+
+  // Add new invoice
+  addNewInvoice: (invoice) =>
+    set((state) => ({ invoices: [invoice, ...state.invoices] })),
+
+  // Update existing invoice
+  updateInvoice: (updatedInvoice) =>
+    set((state) => ({
+      invoices: state.invoices.map((inv) =>
+        inv.id === updatedInvoice.id ? updatedInvoice : inv
+      ),
+    })),
+
+  // Delete invoice
+  deleteInvoice: (id) =>
+    set((state) => ({
+      invoices: state.invoices.filter((inv) => inv.id !== id),
+    })),
 }));
 
 export default useAppStore;

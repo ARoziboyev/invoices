@@ -49,7 +49,6 @@ export async function addInvoice(data) {
     throw new Error("xatolik mavjud");
   }
 }
-// Update by id
 export async function updateById(id, newData) {
   const req = await fetch(`${baseURL}/${id}`, {
     method: "PATCH",

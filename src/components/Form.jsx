@@ -1,44 +1,36 @@
 import React, { useEffect, useState } from "react";
 import ItemList from "./ItemList";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { Button } from "../components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import { prepareData } from "../lib/utils";
 import useAppStore from "../lib/Zustend";
-import { addInvoice } from "../reques";
+import { addInvoice, updateById } from "../reques";
 import { toast } from "sonner";
+
 function Form({ info, setShetOpen }) {
   const { items: zustandItems } = useAppStore();
-  const [responseData, setResponseData] = useState(null);
-
-  const {
-    senderAddress,
-    clientAddress,
-    clientName,
-    paymentTerms,
-    clientEmail,
-    description,
-    paymentDue,
-    createdAt,
-    street,
-    items,
-  } = info || {};
   const [sending, setSending] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { setInvoices } = useAppStore();
+  const { addNewInvoice, updateInvoice } = useAppStore();
+
   function handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const result = { status: e.nativeEvent.submitter.id };
+    const result = info ? { ...info } : {};
+
+    if (!info) {
+      result.status = e.nativeEvent.submitter.id;
+    }
 
     formData.forEach((value, key) => {
       if (["quantity", "price", "paymentTerms"].includes(key)) {
@@ -57,22 +49,38 @@ function Form({ info, setShetOpen }) {
   useEffect(() => {
     if (sending) {
       setLoading(true);
-      addInvoice(sending)
-        .then((res) => {
-          setInvoices([res]);
-          setResponseData(res);
-          toast.success("Succesfully adding ✅");
-          setShetOpen(false);
-        })
-        .catch(({ massage }) => {
-          toast.error(massage, "qo'shilishda xayolik");
-        })
-        .finally(() => {
-          setLoading(false);
-          setSending(null);
-        });
+
+      if (info?.id) {
+        updateById(info.id, sending)
+          .then((res) => {
+            updateInvoice(res);
+            toast.success("Muvaffaqiyatli yangilandi ✅");
+            setShetOpen(false);
+          })
+          .catch(({ message }) => {
+            toast.error(message || "Yangilashda xato!");
+          })
+          .finally(() => {
+            setLoading(false);
+            setSending(null);
+          });
+      } else {
+        addInvoice(sending)
+          .then((res) => {
+            addNewInvoice(res);
+            toast.success("Muvaffaqiyatli qo'shildi ✅");
+            setShetOpen(false);
+          })
+          .catch(({ message }) => {
+            toast.error(message || "Qo'shishda xato!");
+          })
+          .finally(() => {
+            setLoading(false);
+            setSending(null);
+          });
+      }
     }
-  }, [sending ? JSON.stringify(sending) : sending]);
+  }, [sending]);
 
   return (
     <form
@@ -201,7 +209,9 @@ function Form({ info, setShetOpen }) {
           defaultValue={info?.description}
         />
       </div>
+
       <ItemList info={info && info.items} />
+
       {info ? (
         <div className="flex justify-end gap-5 mt-10">
           <Button variant={"outline"}>Cancel</Button>
@@ -212,7 +222,7 @@ function Form({ info, setShetOpen }) {
       ) : (
         <div className="flex justify-end gap-2 sm:bg-[#1E2139] mt-10">
           <Button
-            className=" w-[96px] dark:bg-[#F9FAFE] h-[48px] rounded-[24px] hover:bg-[#dbe2ff] cursor-pointer text-[#7E88C3]"
+            className="w-[96px] dark:bg-[#F9FAFE] h-[48px] rounded-[24px] hover:bg-[#dbe2ff] cursor-pointer text-[#7E88C3]"
             disabled={loading}
             variant={"outline"}>
             Discard
