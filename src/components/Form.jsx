@@ -220,7 +220,7 @@ function Form({ info, setShetOpen }) {
           </Button>
         </div>
       ) : (
-        <div className="flex justify-end gap-2 sm:bg-[#1E2139] mt-10">
+        <div className="flex justify-end sm:justify-center gap-0.5 sm:bg-[#1E2139] mt-10">
           <Button
             className="w-[96px] dark:bg-[#F9FAFE] h-[48px] rounded-[24px] hover:bg-[#dbe2ff] cursor-pointer text-[#7E88C3]"
             disabled={loading}
@@ -228,14 +228,14 @@ function Form({ info, setShetOpen }) {
             Discard
           </Button>
           <Button
-            className="bg-[#373B53] w-[128px] h-[48px] rounded-[24px] hover:bg-[#0C0E16] cursor-pointer text-[#fff]"
+            className="bg-[#373B53] w-[110px] h-[48px] rounded-[24px] hover:bg-[#0C0E16] cursor-pointer text-[#fff]"
             disabled={loading}
             id="draft"
             variant={"secondary"}>
             {loading ? "Loading..." : "Save as draft"}
           </Button>
           <Button
-            className="bg-[#7C5DFA] w-[128px] h-[48px] rounded-[24px] hover:bg-[#0C0E16] cursor-pointer text-[#fff]"
+            className="bg-[#7C5DFA] w-[110px] h-[48px] rounded-[24px] hover:bg-[#0C0E16] cursor-pointer text-[#fff]"
             disabled={loading}
             id="pending">
             {loading ? "Loading..." : "Save & Send"}

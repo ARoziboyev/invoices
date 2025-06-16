@@ -18,11 +18,9 @@ const useAppStore = create((set) => ({
   setItems: (items) => set(() => ({ items })),
   setEditedData: (editedData) => set(() => ({ editedData })),
 
-  // Add new invoice
   addNewInvoice: (invoice) =>
     set((state) => ({ invoices: [invoice, ...state.invoices] })),
 
-  // Update existing invoice
   updateInvoice: (updatedInvoice) =>
     set((state) => ({
       invoices: state.invoices.map((inv) =>
@@ -30,7 +28,6 @@ const useAppStore = create((set) => ({
       ),
     })),
 
-  // Delete invoice
   deleteInvoice: (id) =>
     set((state) => ({
       invoices: state.invoices.filter((inv) => inv.id !== id),
