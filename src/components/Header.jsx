@@ -68,10 +68,11 @@ function Header({ totalInvoices = 7 }) {
     <header className="bg-[#F8F8FB] dark:bg-[#141625]">
       <div className="container max-w-[730px] mx-auto py-8 flex justify-between items-center">
         <div>
-          <h1 className="font-bold text-3xl dark:text-white text-[#0C0E16]">
+          <h1 className="text-xl sm:text-base md:text-2xl font-bold md:font-semibold text-[#0C0E16] dark:text-white">
             Invoices
           </h1>
-          <p className="text-[#888EB0] mt-1">
+
+          <p className="text-[#888EB0] mt-1  font-[16px] text-sm">
             {(totalInvoices ?? 0) === 0
               ? "No invoices"
               : `There ${

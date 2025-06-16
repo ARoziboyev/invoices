@@ -85,7 +85,7 @@ function Form({ info, setShetOpen }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-[#1E2139] text-white p-4 md:p-8 rounded-lg shadow-lg w-full max-w-[720px] mx-auto">
+      className="dark:bg-[#1E2139] text-white p-4 md:p-8 rounded-lg shadow-lg w-full max-w-[720px] mx-auto">
       <h2 className="text-lg font-bold mb-6">Edit #{info?.id}</h2>
 
       <h3 className="text-sm text-purple-500 font-semibold mb-4">Bill From</h3>
@@ -95,7 +95,7 @@ function Form({ info, setShetOpen }) {
           id="senderAddress-street"
           name="senderAddress-street"
           placeholder="Street Address"
-          className="w-full h-[48px] bg-[#252945] text-white"
+          className="w-full h-[48px] dark:bg-[#252945] text-white"
           defaultValue={info?.senderAddress?.street}
         />
       </div>
@@ -111,7 +111,7 @@ function Form({ info, setShetOpen }) {
               id={`senderAddress-${field}`}
               name={`senderAddress-${field}`}
               placeholder={field}
-              className="w-full h-[48px] bg-[#252945] text-white"
+              className="w-full h-[48px] dark:bg-[#252945] text-white"
               defaultValue={info?.senderAddress?.[field]}
             />
           </div>
@@ -125,7 +125,7 @@ function Form({ info, setShetOpen }) {
           id="clientName"
           name="clientName"
           placeholder="Client Name"
-          className="w-full h-[48px] bg-[#252945] text-white"
+          className="w-full h-[48px] dark:bg-[#252945] text-white"
           defaultValue={info?.clientName}
         />
       </div>
@@ -135,7 +135,7 @@ function Form({ info, setShetOpen }) {
           id="clientEmail"
           name="clientEmail"
           placeholder="email@example.com"
-          className="w-full h-[48px] bg-[#252945] text-white"
+          className="w-full h-[48px] dark:bg-[#252945] text-white"
           defaultValue={info?.clientEmail}
         />
       </div>
@@ -145,7 +145,7 @@ function Form({ info, setShetOpen }) {
           id="clientAddress-street"
           name="clientAddress-street"
           placeholder="Street Address"
-          className="w-full h-[48px] bg-[#252945] text-white"
+          className="w-full h-[48px] dark:bg-[#252945] text-white"
           defaultValue={info?.clientAddress?.street}
         />
       </div>
@@ -161,7 +161,7 @@ function Form({ info, setShetOpen }) {
               id={`clientAddress-${field}`}
               name={`clientAddress-${field}`}
               placeholder={field}
-              className="w-full h-[48px] bg-[#252945] text-white"
+              className="w-full h-[48px] dark:bg-[#252945] text-white"
               defaultValue={info?.clientAddress?.[field]}
             />
           </div>
@@ -175,7 +175,7 @@ function Form({ info, setShetOpen }) {
             type="date"
             id="createdAt"
             name="createdAt"
-            className="w-full h-[48px] bg-[#252945] text-white"
+            className="w-full h-[48px] dark:bg-[#252945] text-[#ccc] dark:text-white"
             defaultValue={info?.createdAt}
           />
         </div>
@@ -184,8 +184,8 @@ function Form({ info, setShetOpen }) {
           <Select
             name="paymentTerms"
             defaultValue={info?.paymentTerms?.toString()}>
-            <SelectTrigger className="w-full h-[48px] bg-[#252945] text-white">
-              <SelectValue placeholder="Select terms" />
+            <SelectTrigger className="w-full h-[48px] dark:bg-[#252945] text-white">
+              <SelectValue placeholder="Net 30 Days" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
@@ -205,7 +205,7 @@ function Form({ info, setShetOpen }) {
           id="description"
           name="description"
           placeholder="Website Design"
-          className="w-full h-[48px] bg-[#252945] text-white"
+          className="w-full h-[48px] dark:bg-[#252945] text-white"
           defaultValue={info?.description}
         />
       </div>
@@ -220,7 +220,7 @@ function Form({ info, setShetOpen }) {
           </Button>
         </div>
       ) : (
-        <div className="flex justify-end sm:justify-center gap-0.5 sm:bg-[#1E2139] mt-10">
+        <div className="flex justify-end sm:justify-center gap-0.5 dark:bg-[#1E2139] mt-10">
           <Button
             className="w-[96px] dark:bg-[#F9FAFE] h-[48px] rounded-[24px] hover:bg-[#dbe2ff] cursor-pointer text-[#7E88C3]"
             disabled={loading}
