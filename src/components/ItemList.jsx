@@ -84,7 +84,6 @@ function ItemList({ info }) {
     <div className="w-full max-w-[504px] mx-auto mt-6 px-4 sm:px-0">
       <h3 className="text-xl font-semibold mb-4 text-[#777F98]">Item List</h3>
 
-      {/* Table header */}
       <div className="hidden lg:flex items-center justify-between px-1 mb-2 text-sm text-[#6B7280] font-medium">
         <span className="w-[214px]">Item Name</span>
         <span className="w-[60px] text-center">Qty.</span>
@@ -97,8 +96,7 @@ function ItemList({ info }) {
         {locolItems.map(({ name, quantity, price, total, id }) => (
           <li
             className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-2 lg:gap-2"
-            key={id}
-          >
+            key={id}>
             <Input
               onChange={(e) => handleChange(e, id)}
               value={name}
@@ -134,8 +132,7 @@ function ItemList({ info }) {
               <Button
                 type="button"
                 onClick={() => handleClick("delete", id)}
-                className="w-[32px] h-[32px] bg-transparent hover:bg-transparent p-0 cursor-pointer mt-2 lg:mt-0"
-              >
+                className="w-[32px] h-[32px] bg-transparent hover:bg-transparent p-0 cursor-pointer mt-2 lg:mt-0">
                 <img src={tresh} alt="trash" width={18} height={18} />
               </Button>
             </div>
@@ -146,8 +143,7 @@ function ItemList({ info }) {
       <Button
         type="button"
         onClick={() => handleClick("add", crypto.randomUUID())}
-        className="mt-6 w-full h-[48px] text-[#7E88C3] bg-[#F9FAFE] dark:bg-[#252945] rounded-[24px] cursor-pointer"
-      >
+        className="mt-6 w-full h-[48px] text-[#7E88C3] bg-[#F9FAFE] hover:bg-[#c8eaf9] dark:bg-[#252945] rounded-[24px] cursor-pointer">
         + Add New Item
       </Button>
     </div>

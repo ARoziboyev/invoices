@@ -95,7 +95,7 @@ function Form({ info, setShetOpen }) {
           id="senderAddress-street"
           name="senderAddress-street"
           placeholder="Street Address"
-          className="w-full h-[48px] dark:bg-[#252945] text-white"
+          className="w-full h-[48px] dark:bg-[#252945] text-[#000] dark:text-white"
           defaultValue={info?.senderAddress?.street}
         />
       </div>
@@ -111,7 +111,7 @@ function Form({ info, setShetOpen }) {
               id={`senderAddress-${field}`}
               name={`senderAddress-${field}`}
               placeholder={field}
-              className="w-full h-[48px] dark:bg-[#252945] text-white"
+              className="w-full h-[48px] dark:bg-[#252945] text-[#000] dark:text-white"
               defaultValue={info?.senderAddress?.[field]}
             />
           </div>
@@ -125,7 +125,7 @@ function Form({ info, setShetOpen }) {
           id="clientName"
           name="clientName"
           placeholder="Client Name"
-          className="w-full h-[48px] dark:bg-[#252945] text-white"
+          className="w-full h-[48px] dark:bg-[#252945] text-[#000] dark:text-white"
           defaultValue={info?.clientName}
         />
       </div>
@@ -135,7 +135,7 @@ function Form({ info, setShetOpen }) {
           id="clientEmail"
           name="clientEmail"
           placeholder="email@example.com"
-          className="w-full h-[48px] dark:bg-[#252945] text-white"
+          className="w-full h-[48px] dark:bg-[#252945] text-[#000] dark:text-white"
           defaultValue={info?.clientEmail}
         />
       </div>
@@ -145,7 +145,7 @@ function Form({ info, setShetOpen }) {
           id="clientAddress-street"
           name="clientAddress-street"
           placeholder="Street Address"
-          className="w-full h-[48px] dark:bg-[#252945] text-white"
+          className="w-full h-[48px] dark:bg-[#252945] text-[#000] dark:text-white"
           defaultValue={info?.clientAddress?.street}
         />
       </div>
@@ -161,7 +161,7 @@ function Form({ info, setShetOpen }) {
               id={`clientAddress-${field}`}
               name={`clientAddress-${field}`}
               placeholder={field}
-              className="w-full h-[48px] dark:bg-[#252945] text-white"
+              className="w-full h-[48px] dark:bg-[#252945] text-[#000] dark:text-white"
               defaultValue={info?.clientAddress?.[field]}
             />
           </div>
@@ -184,7 +184,7 @@ function Form({ info, setShetOpen }) {
           <Select
             name="paymentTerms"
             defaultValue={info?.paymentTerms?.toString()}>
-            <SelectTrigger className="w-full h-[48px] dark:bg-[#252945] text-white">
+            <SelectTrigger className="w-full h-[48px] dark:bg-[#252945] text-[#000] dark:text-white">
               <SelectValue placeholder="Net 30 Days" />
             </SelectTrigger>
             <SelectContent>
@@ -205,7 +205,7 @@ function Form({ info, setShetOpen }) {
           id="description"
           name="description"
           placeholder="Website Design"
-          className="w-full h-[48px] dark:bg-[#252945] text-white"
+          className="w-full h-[48px] dark:bg-[#252945] text-[#000] dark:text-white"
           defaultValue={info?.description}
         />
       </div>
@@ -214,7 +214,9 @@ function Form({ info, setShetOpen }) {
 
       {info ? (
         <div className="flex justify-end gap-5 mt-10">
-          <Button variant={"outline"}>Cancel</Button>
+          <Button className="text-[#000]" variant={"outline"}>
+            Cancel
+          </Button>
           <Button type="submit" disabled={loading}>
             {loading ? "Loading..." : "Save Changes"}
           </Button>
@@ -222,7 +224,7 @@ function Form({ info, setShetOpen }) {
       ) : (
         <div className="flex justify-end sm:justify-center gap-0.5 dark:bg-[#1E2139] mt-10">
           <Button
-            className="w-[96px] dark:bg-[#F9FAFE] h-[48px] rounded-[24px] hover:bg-[#dbe2ff] cursor-pointer text-[#7E88C3]"
+            className="w-[96px] dark:bg-[#F9FAFE]  h-[48px] rounded-[24px] hover:bg-[#dbe2ff] cursor-pointer text-[#7E88C3]"
             disabled={loading}
             variant={"outline"}>
             Discard
